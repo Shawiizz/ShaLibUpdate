@@ -9,7 +9,7 @@ If you have a bug, you can report it creating an issue on this repository_
 
 **What are the features ?**
 ------
-This java library include file downloader, file checker, a feature to not download certain files or directories and another feature to not delete file or directories with the file checker.
+This java library include file downloader, file checker, a feature to not download certain files / directories and another feature to not delete file / directories when file checker is checking files.
 
 
 **How to use this ?**
@@ -31,7 +31,7 @@ It's simple ! Follow these steps.
 ------
 This code permit you to launch the updater :
 > new ShaLibUpdate("link", "path", ShaLogger.SHOWMESSAGES).startUpdater();
-<br></br>
+<br>
 
 I advice you to make a it in a new thread to update the percentage :
 > new Thread(() -> new ShaLibUpdate("link", "path", ShaLogger.SHOWMESSAGES).startUpdater()).start();
@@ -40,7 +40,7 @@ Now, explainations. Ok so the first field of this function ("link") is the link 
 
 **Additional Code**
 ------
-I think you will want to display the percentage, here is the code i advice you to use (Timer). I already calculate the percentage in the lib but you can do it yourself. Code :
+I think you will want to display the percentage, here is the code i advice you to use (Timer). I already calculate the percentage in the lib but you can do it yourself. Also see this [class](https://github.com/Shawiizz/ShaLibUpdate/blob/master/src/TestUpdate.java) which contains the code. Code :
 > Timer t = new Timer();
     t.schedule(new TimerTask() {
       @Override
