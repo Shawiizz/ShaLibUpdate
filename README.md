@@ -4,6 +4,8 @@
 ### An easy java updater to download files easily from webserver, including some cool features !
 _Note that this updater is in beta and it's my first java library, so it can have bugs.
 If you have a bug, you can report it creating an issue on this repository_
+
+Readme langage : <a href="https://github.com/Shawiizz/ShaLibUpdate/blob/master/README-fr.md">Français</a>
 </div>
 
 
