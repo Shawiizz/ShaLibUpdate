@@ -16,10 +16,7 @@ This java library include file downloader, file checker, a feature to not downlo
 ------
 It's simple ! Follow these steps.
 * Download
-  * You need to download the [library](https://github.com/Shawiizz/ShaLibUpdate/blob/master/ShaLibUpdate-0.1.jar)
-  `link`
-  * You need to download [webserver zip file](https://github.com/Shawiizz/ShaLibUpdate/blob/master/Webserver.zip)
-  `link`
+  * You need to download the [library](https://github.com/Shawiizz/ShaLibUpdate/blob/master/ShaLibUpdate-0.1.jar) and the [webserver zip file](https://github.com/Shawiizz/ShaLibUpdate/blob/master/Webserver.zip)
 * Install
   * Import the library into your project
   * Extract the content of your webserver zip file into a folder on your webserver or WAMP :
