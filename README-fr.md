@@ -3,7 +3,8 @@
 
 ### Un système de mise à jour facile d'utilisation codé en java pour télécharger des fichiers depuis un serveur web en ayant des fonctionnalités intéréssantes !
 _Ce système de mise à jour est en bêta et c'est aussi ma première librarie en java, donc il peut y avovir des bugs. Si tu as un bug, tu peux le report dans la section issues sur ce repo._
-<a href="https://github.com/Shawiizz/ShaLibUpdate/blob/master/README.md">English</a> | <a href="https://github.com/Shawiizz/ShaLibUpdate/blob/master/README-fr.md">Français</a>
+
+Langue du readme : <a href="https://github.com/Shawiizz/ShaLibUpdate/blob/master/README.md">English</a>
 </div>
 
 
