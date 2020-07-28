@@ -22,58 +22,28 @@ public class ShaLibUpdate {
   public static boolean checkStatus = false;
   public static String link = "";
   public static String path = "";
-  public static Boolean log = false;
-  private static HashMap<String, File> filesToDl = new HashMap<>();
-  private static ArrayList<String> filesToCheck = new ArrayList<>();
+  static Boolean log = false;
+  static HashMap<String, File> filesToDl = new HashMap<>();
+  static ArrayList<String> filesToCheck = new ArrayList<>();
 
   public ShaLibUpdate(String link, String path, ShaLogger type) {
     ShaLibUpdate.link = link;
     ShaLibUpdate.path = path;
-    log= !type.equals(ShaLogger.HIDEMESSAGES);
+    log = !type.equals(ShaLogger.HIDEMESSAGES);
   }
 
-  public void startUpdater() {
-    log("   _____   _               _        _   _       _    _               _           _          \n" +
-      "  / ____| | |             | |      (_) | |     | |  | |             | |         | |         \n" +
-      " | (___   | |__     __ _  | |       _  | |__   | |  | |  _ __     __| |   __ _  | |_    ___ \n" +
-      "  \\___ \\  | '_ \\   / _` | | |      | | | '_ \\  | |  | | | '_ \\   / _` |  / _` | | __|  / _ \\\n" +
-      "  ____) | | | | | | (_| | | |____  | | | |_) | | |__| | | |_) | | (_| | | (_| | | |_  |  __/\n" +
-      " |_____/  |_| |_|  \\__,_| |______| |_| |_.__/   \\____/  | .__/   \\__,_|  \\__,_|  \\__|  \\___|\n" +
-      "                                                        | |                                 \n" +
-      "                                                        |_|                                 ");
-    log("[ShaLibUpdate] - Indexing files");
-    try {
-      indexPerso();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    filesToDownload=filesToDl.size();
-    log("[ShaLibUpdate] - "+filesToDownload+" files are required to download.");
-    updateStatus=true;
-    for (String i : filesToDl.keySet()) dl(i, filesToDl.get(i));
-    updateStatus=false;
-    percentage = 100;
-    checkStatus=true;
-    try {
-      checkFiles();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    checkStatus=false;
-  }
-
-  private static void indexPerso() throws Exception {
+  private static void indexFiles() throws Exception {
     String ignorestr;
     ArrayList<String> ignoreFileList = new ArrayList<>();
     ArrayList<String> ignoreFolderList = new ArrayList<>();
-    BufferedReader filesIngore = null;
+    BufferedReader IgnoreDownloadFile = null;
     try {
-      filesIngore = new BufferedReader(new InputStreamReader(new URL(link + "/IgnoreDownload.cfg").openStream()));
+      IgnoreDownloadFile = new BufferedReader(new InputStreamReader(new URL(link + "/IgnoreDownload.cfg").openStream()));
     } catch (Exception e) {
-      System.out.println("[ShaLibUpdate] [ERROR] - You need to create the file IgnoreDownload.cfg at "+ link + "/IgnoreDownload.cfg");
+      System.out.println("[ShaLibUpdate] [ERROR] - You need to create the file IgnoreDownload.cfg at " + link + "/IgnoreDownload.cfg");
       System.exit(0);
     }
-    while ((ignorestr = filesIngore.readLine()) != null) {
+    while ((ignorestr = IgnoreDownloadFile.readLine()) != null) {
       if(ignorestr.endsWith("/"))
         ignoreFolderList.add(ignorestr);
       else
@@ -81,14 +51,14 @@ public class ShaLibUpdate {
     }
 
     String str;
-    BufferedReader files = new BufferedReader(new InputStreamReader(new URL(link+"/files/index.php").openStream()));
+    BufferedReader files = new BufferedReader(new InputStreamReader(new URL(link + "/files/index.php").openStream()));
     while ((str = files.readLine()) != null) {
       String[] args = str.split("\\|");
       if(args.length == 2) {
         File file = new File(path + "/" + args[0]);
         filesToCheck.add(args[1]);
         if((!file.exists() || !getMd5(file).equals(args[1])) && !ignoreFileList.contains(args[0]) && !notContains(ignoreFolderList, args[0]))
-          filesToDl.put(link + "/files/"+args[0], file);
+          filesToDl.put(link + "/files/" + args[0], file);
       }
     }
   }
@@ -102,7 +72,7 @@ public class ShaLibUpdate {
     try {
       ignore = new BufferedReader(new InputStreamReader(new URL(link + "/IgnoreDelete.cfg").openStream()));
     } catch (Exception e) {
-      System.out.println("[ShaLibUpdate] [ERROR] - You need to create the file IgnoreDelete.cfg at "+ link + "/IgnoreDelete.cfg");
+      System.out.println("[ShaLibUpdate] [ERROR] - You need to create the file IgnoreDelete.cfg at " + link + "/IgnoreDelete.cfg");
       System.exit(0);
     }
     while ((ignorestr = ignore.readLine()) != null)
@@ -123,5 +93,35 @@ public class ShaLibUpdate {
         }
       });
     }
+  }
+
+  public void startUpdater() {
+    log("   _____   _               _        _   _       _    _               _           _          \n" +
+      "  / ____| | |             | |      (_) | |     | |  | |             | |         | |         \n" +
+      " | (___   | |__     __ _  | |       _  | |__   | |  | |  _ __     __| |   __ _  | |_    ___ \n" +
+      "  \\___ \\  | '_ \\   / _` | | |      | | | '_ \\  | |  | | | '_ \\   / _` |  / _` | | __|  / _ \\\n" +
+      "  ____) | | | | | | (_| | | |____  | | | |_) | | |__| | | |_) | | (_| | | (_| | | |_  |  __/\n" +
+      " |_____/  |_| |_|  \\__,_| |______| |_| |_.__/   \\____/  | .__/   \\__,_|  \\__,_|  \\__|  \\___|\n" +
+      "                                                        | |                                 \n" +
+      "                                                        |_|                                 ");
+    log("[ShaLibUpdate] - Indexing files");
+    try {
+      indexFiles();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    filesToDownload = filesToDl.size();
+    log("[ShaLibUpdate] - " + filesToDownload + " files are required to download.");
+    updateStatus = true;
+    for (String i : filesToDl.keySet()) dl(i, filesToDl.get(i));
+    updateStatus = false;
+    percentage = 100;
+    checkStatus = true;
+    try {
+      checkFiles();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    checkStatus = false;
   }
 }
