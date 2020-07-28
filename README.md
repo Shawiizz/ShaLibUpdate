@@ -16,9 +16,9 @@ This java library include file downloader, file checker, a feature to not downlo
 ------
 It's simple ! Follow these steps.
 * Download
-  * You need to download the library :
+  * You need to download the [library](https://github.com/Shawiizz/ShaLibUpdate/blob/master/ShaLibUpdate-0.1.jar)
   `link`
-  * You need to download webserver zip file :
+  * You need to download [webserver zip file](https://github.com/Shawiizz/ShaLibUpdate/blob/master/Webserver.zip)
   `link`
 * Install
   * Import the library into your project
@@ -41,7 +41,8 @@ Now, explainations. Ok so the first field of this function ("link") is the link 
 **Additional Code**
 ------
 I think you will want to display the percentage, here is the code i advice you to use (Timer). I already calculate the percentage in the lib but you can do it yourself. Also see this [class](https://github.com/Shawiizz/ShaLibUpdate/blob/master/src/TestUpdate.java) which contains the code. Code :
-> Timer t = new Timer();
+```java
+  Timer t = new Timer();
     t.schedule(new TimerTask() {
       @Override
       public void run() {
@@ -51,3 +52,4 @@ I think you will want to display the percentage, here is the code i advice you t
           t.cancel();
       }
     }, 0, 20);
+```
