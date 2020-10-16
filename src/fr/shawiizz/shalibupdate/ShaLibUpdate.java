@@ -1,10 +1,7 @@
 package fr.shawiizz.shalibupdate;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -30,42 +27,24 @@ public class ShaLibUpdate {
     static ArrayList<String> filesToCheck = new ArrayList<>();
 
     public ShaLibUpdate(String link, String path, boolean log) {
-        ShaLibUpdate.link = link;
-        ShaLibUpdate.path = path;
-        ShaLibUpdate.log = log;
+        fr.shawiizz.shalibupdate.ShaLibUpdate.link = link;
+        fr.shawiizz.shalibupdate.ShaLibUpdate.path = path;
+        fr.shawiizz.shalibupdate.ShaLibUpdate.log = log;
     }
 
     public ShaLibUpdate(String link, String path, boolean checkFiles, boolean type) {
-        new ShaLibUpdate(link, path, type);
-        ShaLibUpdate.checkFiles = checkFiles;
+        new fr.shawiizz.shalibupdate.ShaLibUpdate(link, path, type);
+        fr.shawiizz.shalibupdate.ShaLibUpdate.checkFiles = checkFiles;
     }
 
-    private static void indexFiles() throws Exception {
-        String ignorestr;
-        ArrayList<String> ignoreFileList = new ArrayList<>();
-        ArrayList<String> ignoreFolderList = new ArrayList<>();
-        BufferedReader IgnoreDownloadFile = null;
-        try {
-            IgnoreDownloadFile = new BufferedReader(new InputStreamReader(new URL(link + "/IgnoreDownload.cfg").openStream()));
-        } catch (Exception e) {
-            System.out.println("[ShaLibUpdate] [ERROR] - You need to create the file IgnoreDownload.cfg at " + link + "/IgnoreDownload.cfg");
-            System.exit(0);
-        }
-        while ((ignorestr = IgnoreDownloadFile.readLine()) != null) {
-            if(ignorestr.endsWith("/"))
-                ignoreFolderList.add(ignorestr);
-            else
-                ignoreFileList.add(ignorestr);
-        }
-
-        String str;
-        BufferedReader files = new BufferedReader(new InputStreamReader(new URL(link + "/files/index.php").openStream()));
-        while ((str = files.readLine()) != null) {
-            String[] args = str.split("\\|");
+    private static void indexFiles() {
+        for (String l : getPageContent(link + "/files/index.php")) {
+            String v = l.replace("./", "");
+            String[] args = v.split("\\|");
             if(args.length == 2) {
                 File file = new File(path + "/" + args[0]);
                 filesToCheck.add(args[1]);
-                if((!file.exists() || !getMd5(file).equals(args[1])) && !ignoreFileList.contains(args[0]) && !notContains(ignoreFolderList, args[0]))
+                if((!file.exists() || !getMd5(file).equals(args[1])) && !notContains(getPageContent(link + "/IgnoreDownload.cfg"), args[0]))
                     filesToDl.put(link + "/files/" + args[0], file);
             }
         }
@@ -74,17 +53,7 @@ public class ShaLibUpdate {
     public static void checkFiles() throws IOException {
         log("[ShaLibUpdate] - Download process finished.");
 
-        ArrayList<String> dontdelete = new ArrayList<>();
-        String ignorestr;
-        BufferedReader ignore = null;
-        try {
-            ignore = new BufferedReader(new InputStreamReader(new URL(link + "/IgnoreDelete.cfg").openStream()));
-        } catch (Exception e) {
-            System.out.println("[ShaLibUpdate] [ERROR] - You need to create the file IgnoreDelete.cfg at " + link + "/IgnoreDelete.cfg");
-            System.exit(0);
-        }
-        while ((ignorestr = ignore.readLine()) != null)
-            dontdelete.add(ignorestr);
+        ArrayList<String> dontdelete = new ArrayList<>(getPageContent(link + "/IgnoreDelete.cfg"));
 
         log("[ShaLibUpdate] - Checking not allowed files...");
         File f = new File(path);

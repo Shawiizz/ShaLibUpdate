@@ -1,8 +1,10 @@
 package fr.shawiizz.shalibupdate;
 
 import javax.xml.bind.DatatypeConverter;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
@@ -18,7 +20,10 @@ public class UpdateUtils {
     static Boolean notContains(ArrayList<String> list, String str) {
         boolean contains = false;
         for (String s : list)
-            if(str.contains(s)) {
+            if(s.endsWith("/") && str.contains(s)) {
+                contains = true;
+                break;
+            } else if(!s.endsWith("/") && str.equals(s)) {
                 contains = true;
                 break;
             }
@@ -31,7 +36,7 @@ public class UpdateUtils {
         } catch (NoSuchAlgorithmException | IOException e) {
             System.out.println("[ShaLibUpdate] [ERROR] - " + e.getMessage());
         }
-        return null;
+        return "md5notfound";
     }
 
     public static void dl(String link, File path) {
@@ -39,9 +44,7 @@ public class UpdateUtils {
             path.getParentFile().mkdirs();
             path.createNewFile();
             log("[ShaLibUpdate] Downloading " + path.getName());
-            URLConnection conn = new URL(link).openConnection();
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0");
-            FileChannel.open(Paths.get(path.getAbsolutePath()), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING).transferFrom(Channels.newChannel(conn.getInputStream()), 0L, Long.MAX_VALUE);
+            FileChannel.open(Paths.get(path.getAbsolutePath()), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING).transferFrom(Channels.newChannel(getConn(link).getInputStream()), 0L, Long.MAX_VALUE);
             ShaLibUpdate.downloadedFiles++;
             ShaLibUpdate.percentage = Math.round((float) ShaLibUpdate.downloadedFiles / ShaLibUpdate.filesToDownload * 100);
         } catch (IOException e) {
@@ -49,6 +52,31 @@ public class UpdateUtils {
             ShaLibUpdate.downloadFailed++;
             log("[ShaLibUpdate] - The file " + path.getName() + " failed to download | Link : " + link + "\nThe error : \n" + e.toString());
         }
+    }
+
+    public static ArrayList<String> getPageContent(String url) {
+        ArrayList<String> content = new ArrayList<>();
+        try {
+            BufferedReader IgnoreDownloadFile = new BufferedReader(new InputStreamReader(getConn(url).getInputStream()));
+            String line;
+            while ((line = IgnoreDownloadFile.readLine()) != null) content.add(line);
+        } catch (Exception e) {
+            System.out.println("[ShaLibUpdate] [ERROR] - Unable to read " + url + "\nPlease check that this file exists.");
+            System.exit(0);
+        }
+        return content;
+    }
+
+    public static URLConnection getConn(String URL) {
+        URLConnection conn = null;
+        try {
+            conn = new URL(URL).openConnection();
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0");
+            conn.setUseCaches(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return conn;
     }
 
     public static void log(String message) {
