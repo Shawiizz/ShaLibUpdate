@@ -15,44 +15,44 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class UpdateUtils {
-  static Boolean notContains(ArrayList<String> list, String str) {
-    boolean contains = false;
-    for (String s : list)
-      if(str.contains(s)) {
-        contains = true;
-        break;
-      }
-    return contains;
-  }
-
-  public static String getMd5(File path) {
-    try {
-      return DatatypeConverter.printHexBinary(MessageDigest.getInstance("MD5").digest(Files.readAllBytes(path.toPath()))).toLowerCase();
-    } catch (NoSuchAlgorithmException | IOException e) {
-      e.printStackTrace();
+    static Boolean notContains(ArrayList<String> list, String str) {
+        boolean contains = false;
+        for (String s : list)
+            if(str.contains(s)) {
+                contains = true;
+                break;
+            }
+        return contains;
     }
-    return null;
-  }
 
-  public static void dl(String link, File path) {
-    try {
-      path.getParentFile().mkdirs();
-      path.createNewFile();
-      log("[ShaLibUpdate] Downloading " + path.getName());
-      URLConnection conn = new URL(link).openConnection();
-      conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0");
-      FileChannel.open(Paths.get(path.getAbsolutePath()), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING).transferFrom(Channels.newChannel(conn.getInputStream()), 0L, Long.MAX_VALUE);
-      ShaLibUpdate.downloadedFiles++;
-      ShaLibUpdate.percentage = Math.round((float) ShaLibUpdate.downloadedFiles / ShaLibUpdate.filesToDownload * 100);
-    } catch (IOException e) {
-      e.printStackTrace();
-      ShaLibUpdate.downloadFailed++;
-      log("[ShaLibUpdate] - The file " + path.getName() + " failed to download | Link : " + link + "\nThe error : \n" + e.toString());
+    public static String getMd5(File path) {
+        try {
+            return DatatypeConverter.printHexBinary(MessageDigest.getInstance("MD5").digest(Files.readAllBytes(path.toPath()))).toLowerCase();
+        } catch (NoSuchAlgorithmException | IOException e) {
+            System.out.println("[ShaLibUpdate] [ERROR] - " + e.getMessage());
+        }
+        return null;
     }
-  }
 
-  public static void log(String message) {
-    if(ShaLibUpdate.log)
-      System.out.println(message);
-  }
+    public static void dl(String link, File path) {
+        try {
+            path.getParentFile().mkdirs();
+            path.createNewFile();
+            log("[ShaLibUpdate] Downloading " + path.getName());
+            URLConnection conn = new URL(link).openConnection();
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0");
+            FileChannel.open(Paths.get(path.getAbsolutePath()), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING).transferFrom(Channels.newChannel(conn.getInputStream()), 0L, Long.MAX_VALUE);
+            ShaLibUpdate.downloadedFiles++;
+            ShaLibUpdate.percentage = Math.round((float) ShaLibUpdate.downloadedFiles / ShaLibUpdate.filesToDownload * 100);
+        } catch (IOException e) {
+            System.out.println("[ShaLibUpdate] [ERROR] - " + e.getMessage());
+            ShaLibUpdate.downloadFailed++;
+            log("[ShaLibUpdate] - The file " + path.getName() + " failed to download | Link : " + link + "\nThe error : \n" + e.toString());
+        }
+    }
+
+    public static void log(String message) {
+        if(ShaLibUpdate.log)
+            System.out.println(message);
+    }
 }
