@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>ShaLibUpdate 0.1</h1>
+  <h1>ShaLibUpdate 0.2</h1>
 
 ### An easy java updater to download files easily from webserver, including some cool features !
 _Note that this updater is in beta and it's my first java library, so it can have bugs.

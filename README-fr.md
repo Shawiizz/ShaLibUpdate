@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>ShaLibUpdate 0.1</h1>
+  <h1>ShaLibUpdate 0.2</h1>
 
 ### Un système de mise à jour facile d'utilisation codé en java pour télécharger des fichiers depuis un serveur web en ayant des fonctionnalités intéréssantes !
 _Ce système de mise à jour est en bêta et c'est aussi ma première librarie en java, donc il peut y avovir des bugs. Si tu as un bug, tu peux le report dans la section issues sur ce repo._
