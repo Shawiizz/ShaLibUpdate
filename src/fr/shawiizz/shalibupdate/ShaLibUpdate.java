@@ -27,14 +27,14 @@ public class ShaLibUpdate {
     static ArrayList<String> filesToCheck = new ArrayList<>();
 
     public ShaLibUpdate(String link, String path, boolean log) {
-        fr.shawiizz.shalibupdate.ShaLibUpdate.link = link;
-        fr.shawiizz.shalibupdate.ShaLibUpdate.path = path;
-        fr.shawiizz.shalibupdate.ShaLibUpdate.log = log;
+        ShaLibUpdate.link = link;
+        ShaLibUpdate.path = path;
+        ShaLibUpdate.log = log;
     }
 
     public ShaLibUpdate(String link, String path, boolean checkFiles, boolean type) {
-        new fr.shawiizz.shalibupdate.ShaLibUpdate(link, path, type);
-        fr.shawiizz.shalibupdate.ShaLibUpdate.checkFiles = checkFiles;
+        new ShaLibUpdate(link, path, type);
+        ShaLibUpdate.checkFiles = checkFiles;
     }
 
     private static void indexFiles() {
