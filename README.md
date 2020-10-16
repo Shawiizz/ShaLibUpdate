@@ -18,7 +18,7 @@ This java library include file downloader, file checker, a feature to not downlo
 ------
 It's simple ! Follow these steps.
 * Download
-  * You need to download the [library](https://github.com/Shawiizz/ShaLibUpdate/blob/master/ShaLibUpdate-0.1.jar) and the [webserver zip file](https://github.com/Shawiizz/ShaLibUpdate/blob/master/Webserver.zip)
+  * You need to download the [library](https://github.com/Shawiizz/ShaLibUpdate/blob/master/ShaLibUpdate-0.2.jar) and the [webserver zip file](https://github.com/Shawiizz/ShaLibUpdate/blob/master/Webserver.zip)
 * Install
   * Import the library into your project
   * Extract the content of your webserver zip file into a folder on your webserver or WAMP :
@@ -28,14 +28,23 @@ It's simple ! Follow these steps.
 
 **Code**
 ------
-This code permit you to launch the updater :
-> new ShaLibUpdate("link", "path", ShaLogger.SHOWMESSAGES).startUpdater();
+This code enable you to run the updater :
+```java
+new ShaLibUpdate("link", "path", ShaLibUpdate.SHOWMESSAGES).startUpdater();
+```
 <br>
 
-I advice you to make a it in a new thread to update the percentage :
-> new Thread(() -> new ShaLibUpdate("link", "path", ShaLogger.SHOWMESSAGES).startUpdater()).start();
+You can disable the file checking : 
+```java
+new ShaLibUpdate("link", "path", false, ShaLibUpdate.SHOWMESSAGES).startUpdater();
+```
 
-Now, explainations. Ok so the first field of this function ("link") is the link or your webserver, where you uploaded the content of webserver.zip file. The second field ("path") is where the updater will download your file and the third field is to show or not show the messages in the console. I advice it to show the messages if you have a problem, but if you don't have any problem you can hide the messages.
+I advice you to make a it in a new thread to update the percentage and reduce lags :
+```java
+new Thread(() -> new ShaLibUpdate("link", "path", ShaLibUpdate.SHOWMESSAGES).startUpdater()).start();
+```
+
+Now, explainations. Ok so the first param of this function ("link") is the link or your webserver, where you uploaded the content of webserver.zip file. The second param ("path") is where the updater will download your file. The optional third param is to disable the file checking. And the third (fourth if you disable file checking) param is to show or not show the messages in the console. I advice it to show the messages if you have a problem, but if you don't have any problem you can hide the messages.
 
 **Additional Code**
 ------

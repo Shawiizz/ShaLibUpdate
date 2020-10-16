@@ -17,7 +17,7 @@ Cette librarie contient le système pour télécharger les fichiers, un système
 ------
 C'est simple ! Il te suffit de suivre ces étapes.
 * Télécharger
-  * Tu as besoin de télécharger la [librarie](https://github.com/Shawiizz/ShaLibUpdate/blob/master/ShaLibUpdate-0.1.jar) et le fichier [webserver.zip](https://github.com/Shawiizz/ShaLibUpdate/blob/master/Webserver.zip)
+  * Tu as besoin de télécharger la [librarie](https://github.com/Shawiizz/ShaLibUpdate/blob/master/ShaLibUpdate-0.2.jar) et le fichier [webserver.zip](https://github.com/Shawiizz/ShaLibUpdate/blob/master/Webserver.zip)
 * Install
   * Importe la librarie dans ton projet
   * Extrait le contenu de webserver.zip dans le dossier sur votre hébergement web ou local (WAMP par exemple) :
@@ -28,13 +28,21 @@ C'est simple ! Il te suffit de suivre ces étapes.
 **Code**
 ------
 Ce code te permet de lancer l'updater :
-> new ShaLibUpdate("link", "path", ShaLogger.SHOWMESSAGES).startUpdater();
+```java
+new ShaLibUpdate("link", "path", ShaLibUpdate.SHOWMESSAGES).startUpdater();
+```
 <br>
 
-Je te conseilles de le mettre dans un autre thread pour afficher le pourcentage :
-> new Thread(() -> new ShaLibUpdate("link", "path", ShaLogger.SHOWMESSAGES).startUpdater()).start();
+Tu peux désactiver la vérification des fichiers si tu le souhaites : 
+```java
+new ShaLibUpdate("link", "path", false, ShaLibUpdate.SHOWMESSAGES).startUpdater();
+```
 
-Maintenat, expliquations. Ok donc le paramètre "link" est le lien vers ton serveur web, là ou tu as extrait le contenu de webserver.zip. Le second paramètre ("path") est la où tous tes fichiers vont être téléchargés, puis le 3ème paramètre est tout simplement pour affiche ou masquer les messages dans la console. Si tu as un problème avec la lib je te conseilles de mettre en ShaLogger.SHOWMESSAGES pour montrer les messages.
+Je te conseille de le mettre dans un autre thread pour afficher le pourcentage et réduire les lags :
+```java
+new Thread(() -> new ShaLibUpdate("link", "path", ShaLibUpdate.SHOWMESSAGES).startUpdater()).start();
+```
+Maintenant, explications. Ok donc le paramètre "link" est le lien vers ton serveur web, là ou tu as extrait le contenu de webserver.zip. Le second paramètre ("path") est là où tous tes fichiers vont être téléchargés, le 3ème paramètre qui lui est optionnel est pour désactiver la vérification des fichiers et pour finir le 3ème paramètre (4ème si tu désactives la vérification des fichiers) est tout simplement pour affiche ou masquer les messages dans la console. Si tu as un problème avec la lib je te conseille de mettre en ShaLibUpdate.SHOWMESSAGES pour montrer les messages.
 
 **Code Additionnel**
 ------
