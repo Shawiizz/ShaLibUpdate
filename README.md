@@ -1,5 +1,8 @@
 <div align="center">
-  <h1>ShaLibUpdate 0.2</h1>
+  <h1>ShaLibUpdate 0.2 (ARCHIVED since 23/04/2023)</h1>
+  
+# This repository has been archived as I don't plan to update this project anymore. Feel free to fork it and improve it as you wish!    
+
 
 ### An easy java updater to download files easily from webserver, including some cool features !
 _Note that this updater is in beta and it's my first java library, so it can have bugs.
